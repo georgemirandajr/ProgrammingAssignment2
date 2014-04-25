@@ -1,15 +1,33 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These functions can be used to create a special object that  
+## stores the inverse of a specified square matrix using makeCacheMatrix. 
+## 'MASS' package is required to calculate the inverse.
 
-## Write a short comment describing this function
+## the first function below creates a list of functions that can store 
+## the inverse of a matrix, 'x'.    
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x 
+  setinverse <- function(ginv) m <<- ginv
+  getinverse <- function() m 
+  list(set = set, get = get,
+       setinverse = setinverse,
+       getinverse = getinverse)
 }
-
-
-## Write a short comment describing this function
-
+## the function below checks to see if the inverse is calculated for 
+## matrix 'x'.
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  m <- x$getinverse()
+  if(!is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  data <- x$get()
+  m <- ginv(data, ...)
+  x$setinverse(m)
+  m  ## Returns a matrix that is the inverse of 'x'
 }
